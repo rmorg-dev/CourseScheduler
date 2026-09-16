@@ -74,5 +74,72 @@ bool isValidCourseCode(const std::string& input) {
 	return regex_match(input, pattern); 
 }
 
+int main() {
+	int selection = 0;
+	BinaryTree* course = new BinaryTree();
+	std::string fileName;
+	std::string courseNumber;
+	const int LOAD = 1;
+	const int PRINT_ALL = 2;
+	const int PRINT_INDV = 3;
+	const int EXIT = 4;
+
+		while (selection != 4) {
+			std::cout << "COURSE SEARCH MENU:" << std::endl;
+			std::cout << "     1. Load CSV file." << std::endl;
+			std::cout << "     2. Print list of all courses." << std::endl;
+			std::cout << "     3. Print individual course and its prerequisites." << std::endl;
+			std::cout << "     4. Exit program." << std::endl;
+			std::cout << "ENTER A SELECTION: " << std::endl;
+			std::cin >> selection;
+			std::cin.ignore();
+			std::cout << std::endl;
+			
+			if (!isdigit(selection)) {
+				std::cout << "Selection must be a number." << std::endl;
+				break;
+			}
+		
+			switch (selection) {
+				case LOAD:  
+					std::cout << "Enter the name of the CSV file: " << std::endl;
+					getline(std::cin, fileName); 
+					ReadCSV(fileName, course); 
+					std::cout << std::endl; 
+					break;
+
+				case PRINT_ALL: 
+					std::cout << "FULL COURSE LIST:" << std::endl; 
+					course->InOrderPrint(); 
+					break; 
+
+				case PRINT_INDV: 
+					std::cout << "Enter the course ID you want to search without spaces (ex. CSCI300): " << std::endl; 
+					do {  
+						getline(std::cin, courseNumber);
+						std::cout << std::endl;
+						std::cout << "Invalid format, please enter the course ID without spaces." << std::endl;
+					} while (!isValidCourseCode(courseNumber) == true);
+				
+					if (isValidCourseCode(courseNumber) == true) {
+						course->Search(courseNumber);
+						std::cout << std::endl;
+						break;
+					} 
+
+				case EXIT: 
+					std::cout << "Goodbye!" << std::endl; 
+					course->~BinaryTree();
+					return 0; 
+
+				default: 
+					std::cout << "Invalid Number! Please choose from the options on the menu." << std::endl << std::endl; 
+			}
+		}
+
+		std::cout << "Goodbye!" << std::endl; 
+		course->~BinaryTree();
+		return 0; 
+}
 
 
