@@ -12,13 +12,6 @@
 
 // TODO: add file documentation.
 
-/**
- * @brief This class is the Main class. It runs the GUI application.
- */
-class Main : public wxApp {
-public:
-	bool OnInit() override;
-};
 
 /**
  * @brief This function converts a string to all lowercase. Code help from https://www.geeksforgeeks.org/how-to-convert-std-string-to-lower-case-in-cpp/
