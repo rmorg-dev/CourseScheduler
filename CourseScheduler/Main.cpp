@@ -6,13 +6,15 @@
 #include <fstream>
 #include <sstream>
 #include <regex>
+#include <limits>
+#include <ios>
 
 /**
  * @brief This function converts a string to all lowercase. Code help from https://www.geeksforgeeks.org/how-to-convert-std-string-to-lower-case-in-cpp/
  * @param str 
  * @return 
  */
-std::string ConvertToLowercase(const std::string& str) {
+std::string ConvertToLowercase(std::string& str) {
 	std::transform(str.begin(), str.end(), str.begin(), tolower);
 
 	return str;
@@ -57,6 +59,7 @@ void ReadCSV(std::string filename, BinaryTree* courseTree) {
 		}
 		courseTree->Insert(course); 
 	}
+
 	std::cout << "file loaded successfully!" << std::endl;
 }
 
@@ -74,6 +77,8 @@ bool isValidCourseCode(const std::string& input) {
 	return regex_match(input, pattern); 
 }
 
+
+
 int main() {
 	int selection = 0;
 	BinaryTree* course = new BinaryTree();
@@ -82,7 +87,8 @@ int main() {
 	const int LOAD = 1;
 	const int PRINT_ALL = 2;
 	const int PRINT_INDV = 3;
-	const int EXIT = 4;
+	const int EXIT_PROGRAM = 4;
+	bool valid;
 
 		while (selection != 4) {
 			std::cout << "COURSE SEARCH MENU:" << std::endl;
@@ -92,13 +98,17 @@ int main() {
 			std::cout << "     4. Exit program." << std::endl;
 			std::cout << "ENTER A SELECTION: " << std::endl;
 			std::cin >> selection;
+
+			/* checking the stream to see if input is valid.If cin raises a fail flag, reset the fail state and ignore all input in the stream then output an error statement.
+			Code help: https://latedev.wordpress.com/2011/09/13/simple-input-bullet-proofing-in-c/ */
+			if (std::cin.fail()) { 
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				std::cout << "Selection must be a number." << std::endl << std::endl;
+				continue;
+			}
 			std::cin.ignore();
 			std::cout << std::endl;
-			
-			if (!isdigit(selection)) {
-				std::cout << "Selection must be a number." << std::endl;
-				break;
-			}
 		
 			switch (selection) {
 				case LOAD:  
@@ -114,31 +124,32 @@ int main() {
 					break; 
 
 				case PRINT_INDV: 
-					std::cout << "Enter the course ID you want to search without spaces (ex. CSCI300): " << std::endl; 
+					std::cout << "Enter the course ID you want to search without spaces (ex. CSCI300): " << std::endl;
 					do {  
 						getline(std::cin, courseNumber);
 						std::cout << std::endl;
-						std::cout << "Invalid format, please enter the course ID without spaces." << std::endl;
-					} while (!isValidCourseCode(courseNumber) == true);
-				
-					if (isValidCourseCode(courseNumber) == true) {
-						course->Search(courseNumber);
-						std::cout << std::endl;
-						break;
-					} 
+						valid = isValidCourseCode(courseNumber);
+						if (!valid) {
+							std::cout << "Invalid Format, please enter the course ID without spaces.";
+						}
+					} while (!valid);
+					course->Search(courseNumber);
+					std::cout << std::endl;
+					break;
 
-				case EXIT: 
+				case EXIT_PROGRAM: 
 					std::cout << "Goodbye!" << std::endl; 
-					course->~BinaryTree();
-					return 0; 
+					delete course;
+					return 0;
+					
 
 				default: 
-					std::cout << "Invalid Number! Please choose from the options on the menu." << std::endl << std::endl; 
+					std::cout << "Invalid Number! Please choose from the options on the menu." << std::endl << std::endl;
 			}
 		}
 
 		std::cout << "Goodbye!" << std::endl; 
-		course->~BinaryTree();
+		delete course;
 		return 0; 
 }
 

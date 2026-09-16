@@ -4,11 +4,19 @@
 #include <vector>
 
 
+
 /**
  * @brief Constructor.
  */
 BinaryTree::BinaryTree() {
 	this->root = nullptr; 
+}
+
+/**
+ * @brief Destructor.
+ */
+BinaryTree::~BinaryTree() {
+	delete root;
 }
 
 /**

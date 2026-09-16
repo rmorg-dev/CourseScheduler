@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="CourseScheduler/CourseScheduler.vcxproj" />
+  <Project Path="CourseScheduler/CourseScheduler.vcxproj" Id="d3e1b44d-890b-4271-b37b-a8fb1b2a6f32" />
 </Solution>

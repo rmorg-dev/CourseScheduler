@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BINARYTREE_H
+#define BINARYTREE_H
 #include <string>
 #include <vector>
 
@@ -44,3 +45,4 @@ public:
 	void InOrderPrint();
 };
 
+#endif
