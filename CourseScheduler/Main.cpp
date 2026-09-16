@@ -88,7 +88,7 @@ int main() {
 	const int PRINT_ALL = 2;
 	const int PRINT_INDV = 3;
 	const int EXIT_PROGRAM = 4;
-	bool valid;
+	bool valid = false;
 
 		while (selection != 4) {
 			std::cout << "COURSE SEARCH MENU:" << std::endl;
