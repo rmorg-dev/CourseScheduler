@@ -130,7 +130,7 @@ int main() {
 						std::cout << std::endl;
 						valid = isValidCourseCode(courseNumber);
 						if (!valid) {
-							std::cout << "Invalid Format, please enter the course ID without spaces.";
+							std::cout << "Invalid Format, please enter the course ID without spaces." << std::endl;
 						}
 					} while (!valid);
 					course->Search(courseNumber);
