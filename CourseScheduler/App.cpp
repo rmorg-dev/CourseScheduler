@@ -4,6 +4,7 @@
 
 bool App::OnInit() {
 	MainWindow* window = new MainWindow();
+	window->CenterOnScreen();
 	window->Show();
 	return true;
 }
