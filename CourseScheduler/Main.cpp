@@ -9,6 +9,8 @@
 #include <limits>
 #include <ios>
 
+// TODO: add file documentation.
+
 /**
  * @brief This function converts a string to all lowercase. Code help from https://www.geeksforgeeks.org/how-to-convert-std-string-to-lower-case-in-cpp/
  * @param str 

@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+// TODO: add file documentation.
+
 struct Course {
 	std::string courseNumber;
 	std::string courseName;
