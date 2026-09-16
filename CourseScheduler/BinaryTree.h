@@ -38,8 +38,9 @@ private:
 
 public:
 	BinaryTree();
-	void Insert(Course course);
-	void Search(string courseNumber);
+	~BinaryTree();
+	void Insert(const Course& course);
+	void Search(const std::string& courseNumber);
 	void InOrderPrint();
 };
 

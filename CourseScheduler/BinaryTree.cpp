@@ -1,91 +1,108 @@
 #include "BinaryTree.h"
+#include <iostream>
 
 
-
+/**
+ * @brief Constructor.
+ */
 BinaryTree::BinaryTree() {
-	this->root = nullptr; // assigns the tree's root to nullptr.
+	this->root = nullptr; 
 }
 
-/* insert a course into the tree. */
-void BinaryTree::Insert(Course course) {
+/**
+ * @brief Inserts a course data type into the tree. Sorts by alphanumeric value.
+ * @param course 
+ */
+void BinaryTree::Insert(const Course& course) {
 	Node* currNode = root;
 
-	if (root == nullptr) { // if there is no data in the tree, the root will be null.
-		root = new Node(course); // so we assign the course to the root and exit the function.
+	if (root == nullptr) { 
+		root = new Node(course); 
 		return;
 	}
 
-	while (currNode != nullptr) { // if the root is not null ptr, we traverse through the tree until we find a spot to insert the course. 
-		if (currNode->course.courseNumber.compare(course.courseNumber) < 0) { // this checks if the currNode's course number is alphanumerically lower than the course number of the course passed in, if yes, we insert into the right.
-			if (currNode->right == nullptr) { // if there is no node stored on the right of the currNode,
-				currNode->right = new Node(course); // we simply store the new course in the right child node.
-				return; // then exit the function.
+	
+	while (currNode != nullptr) {
+
+		/* checks if the current Node's course number is alphanumerically lower than the course passed in. If yes, insert to right side of tree. If right node already exists, it traverses until it finds a null pointer. */
+		if (currNode->course.courseNumber.compare(course.courseNumber) < 0) { 
+			if (currNode->right == nullptr) { 
+				currNode->right = new Node(course);
+				return; 
 			}
 			else {
-				currNode = currNode->right; // if there is a node to the right of currNode, then we continue to traverse. 
+				currNode = currNode->right;  
 			}
-
 		}
-		else if (currNode->course.courseNumber.compare(course.courseNumber) > 0) { // this checks if the currNode's course number is alphanumerically higher than the course number of the course passed in; if yes, we insert into the left.
-			if (currNode->left == nullptr) { // if there is no left child node, 
-				currNode->left = new Node(course); // we simply store the new course in the left child node. 
-				return; // then exit the function.
+		/* checks if the current Node's course number is alphanumerically higher than the course passed in. If yes, insert to left side of tree. If left node already exists, it traverses until it finds a null pointer. */
+		else if (currNode->course.courseNumber.compare(course.courseNumber) > 0) { 
+			if (currNode->left == nullptr) {  
+				currNode->left = new Node(course);
+				return; 
 			}
 			else {
-				currNode = currNode->left; // if there is a node to the left of currNode, then we continue to traverse.
+				currNode = currNode->left; 
 			}
 		}
 
-		else { // if neither of these conditions are met, it means we are trying to insert a node we already have. Since there are no duplicates...
-			return; // we simply exit the function. 
+		else { 
+			return;
 		}
 	}
 }
-/*
-* Function searches the tree for the course number passed.
-*/
-void BinaryTree::Search(string courseNumber) {
+/**
+ * @brief Function searches the tree for the course number passed.
+ * @param courseNumber 
+ */
+void BinaryTree::Search(const std::string& courseNumber) {
 	Node* currNode = root;
-	string lowerCaseCourseNum = ConvertToLowercase(courseNumber); // converting to lowercase to check against valid user input that was input in all caps or all lowercase. removes a validation barrier and is easier for user.
+	// std::string lowerCaseCourseNum = ConvertToLowercase(courseNumber); 
 
 	while (currNode != nullptr) { // if tree has data, the following statements will execute.
-		string lowerNodeCourseNum = ConvertToLowercase(currNode->course.courseNumber); // the currNode's course number is converted to lowercase to check against the courseNumber passed.
-		if (lowerNodeCourseNum == lowerCaseCourseNum) { // if the strings are equal, print out the course name, number, and prerequisites.
-			cout << currNode->course.courseNumber << ": " << currNode->course.courseName << endl;
-			cout << "Prerequisites: " << endl;
-			for (int i = 0; i < currNode->course.prerequisites.size(); i++) { // have to loop for the prerequisites because it is a vector. 
-				cout << currNode->course.prerequisites[i] << endl;
+		//TODO: remove std::string lowerNodeCourseNum = ConvertToLowercase(currNode->course.courseNumber); // the currNode's course number is converted to lowercase to check against the courseNumber passed.
+		
+		// if the strings are equal, print out the course name, number, and prerequisites.
+		if (currNode->course.courseNumber == courseNumber) { 
+			std::cout << currNode->course.courseNumber << ": " << currNode->course.courseName << std::endl;
+			std::cout << "Prerequisites: " << std::endl;
+			for (int i = 0; i < currNode->course.prerequisites.size(); i++) {
+				std::cout << currNode->course.prerequisites[i] << std::endl;
 			}
-			cout << endl;
-			return; // exit the function.
+			std::cout << std::endl;
+			return; 
 		}
-		else if (lowerNodeCourseNum < lowerCaseCourseNum) { // if the strings are not equal, and the node's course number is less than the course number passed, check the right child node. 
+
+		// if the strings are not equal, and the node's course number is less than the course number passed, check the right child node.
+		else if (currNode->course.courseNumber < courseNumber) {  
 			currNode = currNode->right;
 		}
-		else if (lowerNodeCourseNum > lowerCaseCourseNum) { // if the strings are not equal, and the node's course number is greater than the course number passed, check the left child node.
+
+		// if the strings are not equal, and the node's course number is less than the course number passed, check the left child node.
+		else if (currNode->course.courseNumber > courseNumber) { 
 			currNode = currNode->left;
 		}
 	}
 
-	cout << courseNumber << " not found." << endl; // if the course number is not found in the tree, the error statement is printed. 
+	std::cout << courseNumber << " not found." << std::endl; 
 }
 
 
-/*
-* Prints the tree in alphanumeric order staring from root using inOrder traversal.
-*/
+/**
+ * @brief Prints the tree in alphanumeric order staring from root using inOrder traversal.
+ */
 void BinaryTree::InOrderPrint() {
 	inOrder(root);
 }
-/*
-* Traverses the tree in order and prints out each course and its prerequisites.
-*/
+
+/**
+ * @brief Traverses the tree recursively and prints out each course and its prerequisites in ascending order.
+ * @param node 
+ */
 void BinaryTree::inOrder(Node* node) {
 	if (node != nullptr) {
-		inOrder(node->left); //traverses the left-most node first.
+		inOrder(node->left);
 
-		// this is the print statement for the node. NOTE: I didn't put any prerequisites because there were none listed in the sample output.
-		cout << "     " << node->course.courseNumber << ": " << node->course.courseName << endl << endl;
-		inOrder(node->right); //then traverse the right-most node.
+		std::cout << "     " << node->course.courseNumber << ": " << node->course.courseName << std::endl << std::endl;
+		inOrder(node->right); 
 	}
 }
