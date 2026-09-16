@@ -1,5 +1,6 @@
 #include "BinaryTree.h"
 #include <string>
+#include <wx/app.h>
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -8,7 +9,8 @@
 #include <regex>
 #include <limits>
 #include <ios>
-#include <wx/app.h>
+
+
 
 // TODO: add file documentation.
 
@@ -81,12 +83,12 @@ bool isValidCourseCode(const std::string& input) {
 	return regex_match(input, pattern); 
 }
 
-class Main : public wxApp {
+class App : public wxApp {
 public:
 	bool OnInit() override;
 };
 
-wxIMPLEMENT_APP(Main);
+wxIMPLEMENT_APP(App);
 
 
 //int main() {
