@@ -1,5 +1,7 @@
 #include "BinaryTree.h"
 #include <iostream>
+#include <string>
+#include <vector>
 
 
 /**
