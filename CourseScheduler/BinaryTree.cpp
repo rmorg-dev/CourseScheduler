@@ -100,19 +100,18 @@ void BinaryTree::Search(const std::string& courseNumber) {
 /**
  * @brief Prints the tree in alphanumeric order staring from root using inOrder traversal.
  */
-void BinaryTree::InOrderPrint() {
-	inOrder(root);
+void BinaryTree::InOrderPrint(std::vector<Course>& courseVector) {
+	inOrder(root, courseVector);
 }
 
 /**
- * @brief Traverses the tree recursively and prints out each course and its prerequisites in ascending order.
+ * @brief Traverses the tree recursively and stores each course and its prerequisites in ascending order in a vector.
  * @param node 
  */
-void BinaryTree::inOrder(Node* node) {
+void BinaryTree::inOrder(Node* node, std::vector<Course>& courseVector) {
 	if (node != nullptr) {
-		inOrder(node->left);
-
-		std::cout << "     " << node->course.courseNumber << ": " << node->course.courseName << std::endl << std::endl;
-		inOrder(node->right); 
+		inOrder(node->left, courseVector);
+		courseVector.push_back(node->course);
+		inOrder(node->right, courseVector); 
 	}
 }

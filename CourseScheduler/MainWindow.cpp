@@ -2,6 +2,7 @@
 
 #include "MainWindow.h"
 #include "FileWindow.h"
+#include "App.h"
 #include <wx/frame.h>
 #include <wx/filectrl.h>
 #include <wx/panel.h>
@@ -17,7 +18,7 @@ MainWindow::MainWindow() : wxFrame(nullptr, wxID_ANY, "Course Scheduler") {
 	printAllBtn = new wxButton(mainPanel, wxID_ANY, "PRINT ALL COURSES", wxPoint(130, 10), wxDefaultSize);
 	printUserInputBtn = new wxButton(mainPanel, wxID_ANY, "SEARCH COURSE", wxPoint(260, 10), wxDefaultSize);
 	userInputBox = new wxTextCtrl(mainPanel, wxID_ANY, "", wxPoint(100, 50), wxDefaultSize);
-	courseView = new wxTextCtrl(mainPanel, wxID_ANY, "", wxPoint(100, 100), wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY);
+	courseView = new wxTextCtrl(mainPanel, wxID_ANY, "", wxPoint(100, 100), wxSize(600, 600), wxTE_MULTILINE | wxTE_READONLY);
 
 	loadCsvBtn->Bind(wxEVT_BUTTON, &MainWindow::OnLoadCsvClick, this);
 	printAllBtn->Bind(wxEVT_BUTTON, &MainWindow::OnPrintAllClick, this);
@@ -32,7 +33,16 @@ void MainWindow::OnLoadCsvClick(wxCommandEvent& event) {
 }
 
 void MainWindow::OnPrintAllClick(wxCommandEvent& event) {
-	
+	std::vector<Course> courseVector;
+	wxGetApp().courseTree->InOrderPrint(courseVector);
+	wxString courses;
+	for (const Course& course : courseVector) {
+		courses.append(course.courseNumber);
+		courses.append(": ");
+		courses.append(course.courseName);
+		courses.append("\n\n");
+	}
+	courseView->AppendText(courses);
 }
 
 void MainWindow::OnPrintUserInputClick(wxCommandEvent& event) {

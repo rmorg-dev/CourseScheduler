@@ -36,7 +36,7 @@ struct Node {
 class BinaryTree {
 private:
 	Node* root;
-	void inOrder(Node* node);
+	void inOrder(Node* node, std::vector<Course>& courseVector);
 	int size = 0;
 
 public:
@@ -44,7 +44,7 @@ public:
 	~BinaryTree();
 	void Insert(const Course& course);
 	void Search(const std::string& courseNumber);
-	void InOrderPrint();
+	void InOrderPrint(std::vector<Course>& courseVector);
 };
 
 #endif
