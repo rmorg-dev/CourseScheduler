@@ -16,6 +16,7 @@ private:
 	wxButton* printAllBtn;
 	wxButton* printUserInputBtn;
 	wxTextCtrl* userInputBox;
+	wxTextCtrl* courseView;
 
 
 	void OnLoadCsvClick(wxCommandEvent& event);
