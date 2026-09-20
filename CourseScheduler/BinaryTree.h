@@ -2,6 +2,7 @@
 #define BINARYTREE_H
 #include <string>
 #include <vector>
+#include <optional>
 
 // TODO: add file documentation.
 
@@ -43,7 +44,7 @@ public:
 	BinaryTree();
 	~BinaryTree();
 	void Insert(const Course& course);
-	void Search(const std::string& courseNumber, std::vector<Course>& specificCourseVector);
+	std::optional<Course> Search(const std::string& courseNumber);
 	void InOrderPrint(std::vector<Course>& courseVector);
 };
 

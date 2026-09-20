@@ -1,8 +1,10 @@
 #include "BinaryTree.h"
+#include "InputValidation.h"
 #include <iostream>
 #include <string>
 #include <vector>
-
+#include <optional>
+#include <wx/wx.h>
 // TODO: add file documentation.
 
 /**
@@ -64,31 +66,29 @@ void BinaryTree::Insert(const Course& course) {
  * @brief Function searches the tree for the course number passed.
  * @param courseNumber 
  */
-void BinaryTree::Search(const std::string& courseNumber, std::vector<Course>& specificCourseVector) {
+ std::optional<Course> BinaryTree::Search(const std::string& courseNumber) {
 	Node* currNode = root;
-	// std::string lowerCaseCourseNum = ConvertToLowercase(courseNumber); 
 
 	while (currNode != nullptr) { // if tree has data, the following statements will execute.
-		//TODO: remove std::string lowerNodeCourseNum = ConvertToLowercase(currNode->course.courseNumber); // the currNode's course number is converted to lowercase to check against the courseNumber passed.
-		
+		std::string currCourseNumLowercase = ConvertToLowercase(currNode->course.courseNumber);
+
 		// if the strings are equal, print out the course name, number, and prerequisites.
-		if (currNode->course.courseNumber == courseNumber) { 
-			specificCourseVector.push_back(currNode->course);
-			return; 
+		if (currCourseNumLowercase == courseNumber) { 
+			return currNode->course; 
 		}
 
 		// if the strings are not equal, and the node's course number is less than the course number passed, check the right child node.
-		else if (currNode->course.courseNumber < courseNumber) {  
+		else if (currCourseNumLowercase < courseNumber) {  
 			currNode = currNode->right;
 		}
 
 		// if the strings are not equal, and the node's course number is less than the course number passed, check the left child node.
-		else if (currNode->course.courseNumber > courseNumber) { 
+		else if (currCourseNumLowercase > courseNumber) { 
 			currNode = currNode->left;
 		}
 	}
 
-	std::cout << courseNumber << " not found." << std::endl; 
+	 return std::nullopt;
 }
 
 

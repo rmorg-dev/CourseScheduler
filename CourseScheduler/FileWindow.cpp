@@ -1,4 +1,5 @@
 #include "FileWindow.h"
+#include "InputValidation.h"
 #include <wx/filectrl.h>
 #include "App.h"
 #include <wx/wx.h>

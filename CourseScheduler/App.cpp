@@ -7,6 +7,8 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <regex>
+
 
 bool App::OnInit() {
 	courseTree = new BinaryTree();
@@ -15,6 +17,11 @@ bool App::OnInit() {
 	window->CenterOnScreen();
 	window->Show();
 	return true;
+}
+
+int App::OnExit() {
+	delete courseTree;
+	return wxApp::OnExit();
 }
 
 bool App::ReadCSV(const wxString& filename, BinaryTree* courseTree) {
@@ -64,3 +71,6 @@ bool App::ReadCSV(const wxString& filename, BinaryTree* courseTree) {
 
 	return successfulRead;
 }
+
+
+wxIMPLEMENT_APP(App);

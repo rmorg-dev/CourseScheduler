@@ -1,13 +1,15 @@
-#define _CRT_SECURE_NO_WARNINGS // wxWidgets keeps throwing C4996 errors. These errors 
+#define _CRT_SECURE_NO_WARNINGS // wxWidgets keeps throwing C4996 errors.
 
 #include "MainWindow.h"
 #include "FileWindow.h"
 #include "App.h"
+#include "InputValidation.h"
 #include <wx/frame.h>
 #include <wx/filectrl.h>
 #include <wx/panel.h>
 #include <wx/button.h>
 #include <wx/textctrl.h>
+
 
 /**
  * @brief Constructor.
@@ -35,18 +37,51 @@ void MainWindow::OnLoadCsvClick(wxCommandEvent& event) {
 void MainWindow::OnPrintAllClick(wxCommandEvent& event) {
 	std::vector<Course> courseVector;
 	wxGetApp().courseTree->InOrderPrint(courseVector);
-	wxString courses;
+	wxString outputString;
 	for (const Course& course : courseVector) {
-		courses.append(course.courseNumber);
-		courses.append(": ");
-		courses.append(course.courseName);
-		courses.append("\n\n");
+		outputString.append(course.courseNumber);
+		outputString.append(": ");
+		outputString.append(course.courseName);
+		outputString.append("\n\n");
 	}
-	courseView->AppendText(courses);
+	courseView->AppendText(outputString);
+	courseView->IsModified() == true;
 }
 
 void MainWindow::OnPrintUserInputClick(wxCommandEvent& event) {
-	userInputBox->GetValue()
+	if (courseView->IsModified() == true) {
+		courseView->SetValue("");
+	}
+
+	std::string courseNumber = userInputBox->GetValue().ToStdString();
+	if (!isValidCourseCode(courseNumber)) {
+		wxLogMessage("Invalid format. Please type the course number without spaces similar to the example.");
+		return;
+	}
+
+	std::string courseNumberLowercase = ConvertToLowercase(courseNumber);
+	auto specificCourse = wxGetApp().courseTree->Search(courseNumberLowercase);
+
+	if (specificCourse.has_value()){
+		Course c = specificCourse.value();
+		wxString outputString;
+		outputString.append(c.courseNumber);
+		outputString.append(": ");
+		outputString.append(c.courseName);
+
+		if (c.prerequisites.size() > 0) {
+			outputString.append("\n PREREQUISITES: \n");
+				for (int i = 0; i < c.prerequisites.size(); i++) {
+					outputString.append(c.prerequisites[i]);
+					outputString.append("\n");
+				}
+		}
+		courseView->AppendText(outputString);
+	}
+
+	else {
+		wxLogMessage("Course Number not found!");
+	}
 }
 
 
