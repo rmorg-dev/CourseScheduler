@@ -38,7 +38,6 @@ class BinaryTree {
 private:
 	Node* root;
 	void inOrder(Node* node, std::vector<Course>& courseVector);
-	int size = 0;
 
 public:
 	BinaryTree();

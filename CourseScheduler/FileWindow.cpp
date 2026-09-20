@@ -1,8 +1,9 @@
 #include "FileWindow.h"
-#include "InputValidation.h"
-#include <wx/filectrl.h>
 #include "App.h"
-#include <wx/wx.h>
+#include <wx/filectrl.h>
+#include <wx/frame.h>
+#include <wx/panel.h>
+#include <wx/log.h>
 
 FileWindow::FileWindow() : wxFrame(nullptr, wxID_ANY, "File Search") {
 	filePanel = new wxPanel(this);

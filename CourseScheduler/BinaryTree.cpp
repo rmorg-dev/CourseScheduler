@@ -1,10 +1,8 @@
 #include "BinaryTree.h"
 #include "InputValidation.h"
-#include <iostream>
 #include <string>
 #include <vector>
 #include <optional>
-#include <wx/wx.h>
 // TODO: add file documentation.
 
 /**

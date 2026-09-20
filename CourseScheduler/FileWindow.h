@@ -1,6 +1,5 @@
 #ifndef FILEWINDOW_H
 #define FILEWINDOW_H
-#include "BinaryTree.h"
 #include <wx/frame.h>
 #include <wx/panel.h>
 #include <wx/filectrl.h>

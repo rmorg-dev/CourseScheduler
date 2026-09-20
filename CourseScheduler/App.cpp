@@ -7,7 +7,6 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include <regex>
 
 
 bool App::OnInit() {
@@ -24,7 +23,7 @@ int App::OnExit() {
 	return wxApp::OnExit();
 }
 
-bool App::ReadCSV(const wxString& filename, BinaryTree* courseTree) {
+bool App::ReadCSV(const wxString& filename, BinaryTree* tree) {
 	std::string filenameStr = filename.ToStdString();
 	std::ifstream fileIn(filenameStr);
 	std::vector<std::vector<std::string>> csvRows; // a super vector that contains other vectors of strings allowing for easier parsing. 

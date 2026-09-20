@@ -3,19 +3,18 @@
 #include "BinaryTree.h"
 #include <wx/app.h>
 #include <string>
-#include <regex>
 
 class App : public wxApp {
 public:
 	bool OnInit() override;
 	int OnExit() override;
-	bool ReadCSV(const wxString& filename, BinaryTree* courseTree);
+	bool ReadCSV(const wxString& filename, BinaryTree* tree);
 	BinaryTree* courseTree = nullptr;
 private:
 
 };
 
-DECLARE_APP(App);
+wxDECLARE_APP(App);
 
 #endif
 

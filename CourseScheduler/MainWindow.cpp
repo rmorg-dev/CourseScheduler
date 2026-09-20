@@ -9,6 +9,7 @@
 #include <wx/panel.h>
 #include <wx/button.h>
 #include <wx/textctrl.h>
+#include <wx/log.h>
 
 
 /**
@@ -35,6 +36,8 @@ void MainWindow::OnLoadCsvClick(wxCommandEvent& event) {
 }
 
 void MainWindow::OnPrintAllClick(wxCommandEvent& event) {
+	courseView->SetValue("");
+
 	std::vector<Course> courseVector;
 	wxGetApp().courseTree->InOrderPrint(courseVector);
 	wxString outputString;
@@ -45,13 +48,9 @@ void MainWindow::OnPrintAllClick(wxCommandEvent& event) {
 		outputString.append("\n\n");
 	}
 	courseView->AppendText(outputString);
-	courseView->IsModified() == true;
 }
 
 void MainWindow::OnPrintUserInputClick(wxCommandEvent& event) {
-	if (courseView->IsModified() == true) {
-		courseView->SetValue("");
-	}
 
 	std::string courseNumber = userInputBox->GetValue().ToStdString();
 	if (!isValidCourseCode(courseNumber)) {

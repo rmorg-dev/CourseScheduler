@@ -1,8 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <wx/frame.h>
-#include <string>
-#include <wx/dataview.h>
+#include <wx/textctrl.h>
+#include <wx/button.h>
+#include <wx/panel.h> 
 
 // TODO: add file documentation.
 

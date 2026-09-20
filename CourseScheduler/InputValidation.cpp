@@ -1,4 +1,5 @@
 #include "InputValidation.h"
+#include <cctype>
 #include <algorithm>
 #include <regex>
 
