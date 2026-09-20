@@ -10,6 +10,8 @@
 #include <wx/button.h>
 #include <wx/textctrl.h>
 #include <wx/log.h>
+#include <wx/stattext.h>
+#include <wx/font.h>
 
 
 /**
@@ -17,11 +19,16 @@
  */
 MainWindow::MainWindow() : wxFrame(nullptr, wxID_ANY, "Course Scheduler") {
 	mainPanel = new wxPanel(this, wxID_ANY, wxPoint(600, 600), wxSize(500, 500));
-	loadCsvBtn = new wxButton(mainPanel, wxID_ANY, "LOAD CSV DATA", wxPoint(20, 10), wxDefaultSize);
-	printAllBtn = new wxButton(mainPanel, wxID_ANY, "PRINT ALL COURSES", wxPoint(130, 10), wxDefaultSize);
-	printUserInputBtn = new wxButton(mainPanel, wxID_ANY, "SEARCH COURSE", wxPoint(260, 10), wxDefaultSize);
-	userInputBox = new wxTextCtrl(mainPanel, wxID_ANY, "", wxPoint(100, 50), wxDefaultSize);
-	courseView = new wxTextCtrl(mainPanel, wxID_ANY, "", wxPoint(100, 100), wxSize(600, 600), wxTE_MULTILINE | wxTE_READONLY);
+	header = new wxStaticText(mainPanel, wxID_ANY, "COURSE LOOK-UP", wxPoint(150, 25), wxSize(150, 25));
+	loadCsvBtn = new wxButton(mainPanel, wxID_ANY, "LOAD CSV DATA", wxPoint(50, 50), wxSize(150,25));
+	printAllBtn = new wxButton(mainPanel, wxID_ANY, "PRINT ALL COURSES", wxPoint(200, 50), wxSize(150,25));
+	printUserInputBtn = new wxButton(mainPanel, wxID_ANY, "SEARCH COURSE", wxPoint(200, 100), wxSize(150,25));
+	userInputBox = new wxTextCtrl(mainPanel, wxID_ANY, "", wxPoint(50, 100), wxSize(150, 25));
+	courseView = new wxTextCtrl(mainPanel, wxID_ANY, "", wxPoint(50, 150), wxSize(300, 300), wxTE_MULTILINE | wxTE_READONLY);
+
+	font = header->GetFont();
+	font.SetWeight(wxFONTWEIGHT_BOLD);
+	header->SetFont(font);
 
 	loadCsvBtn->Bind(wxEVT_BUTTON, &MainWindow::OnLoadCsvClick, this);
 	printAllBtn->Bind(wxEVT_BUTTON, &MainWindow::OnPrintAllClick, this);
@@ -63,10 +70,10 @@ void MainWindow::OnPrintAllClick(wxCommandEvent& event) {
  * @param event 
  */
 void MainWindow::OnPrintUserInputClick(wxCommandEvent& event) {
-
+	courseView->SetValue("");
 	std::string courseNumber = userInputBox->GetValue().ToStdString();
 	if (!isValidCourseCode(courseNumber)) {
-		wxLogMessage("Invalid format. Please type the course number without spaces similar to the example.");
+		wxLogMessage("Invalid format. Please type the course number without spaces. EX: CSCI300");
 		return;
 	}
 
@@ -81,7 +88,7 @@ void MainWindow::OnPrintUserInputClick(wxCommandEvent& event) {
 		outputString.append(c.courseName);
 
 		if (c.prerequisites.size() > 0) {
-			outputString.append("\n PREREQUISITES: \n");
+			outputString.append("\nPREREQUISITES: \n");
 				for (int i = 0; i < c.prerequisites.size(); i++) {
 					outputString.append(c.prerequisites[i]);
 					outputString.append("\n");

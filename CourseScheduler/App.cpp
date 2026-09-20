@@ -16,6 +16,7 @@ bool App::OnInit() {
 	courseTree = new BinaryTree();
 	MainWindow* window = new MainWindow();
 	// FileWindow* TileWindows = new FileWindow();
+	window->SetClientSize(400, 500);
 	window->CenterOnScreen();
 	window->Show();
 	return true;
