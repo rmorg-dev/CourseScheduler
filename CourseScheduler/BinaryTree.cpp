@@ -64,7 +64,7 @@ void BinaryTree::Insert(const Course& course) {
  * @brief Function searches the tree for the course number passed.
  * @param courseNumber 
  */
-void BinaryTree::Search(const std::string& courseNumber) {
+void BinaryTree::Search(const std::string& courseNumber, std::vector<Course>& specificCourseVector) {
 	Node* currNode = root;
 	// std::string lowerCaseCourseNum = ConvertToLowercase(courseNumber); 
 
@@ -73,12 +73,7 @@ void BinaryTree::Search(const std::string& courseNumber) {
 		
 		// if the strings are equal, print out the course name, number, and prerequisites.
 		if (currNode->course.courseNumber == courseNumber) { 
-			std::cout << currNode->course.courseNumber << ": " << currNode->course.courseName << std::endl;
-			std::cout << "Prerequisites: " << std::endl;
-			for (int i = 0; i < currNode->course.prerequisites.size(); i++) {
-				std::cout << currNode->course.prerequisites[i] << std::endl;
-			}
-			std::cout << std::endl;
+			specificCourseVector.push_back(currNode->course);
 			return; 
 		}
 

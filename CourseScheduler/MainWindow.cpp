@@ -46,6 +46,7 @@ void MainWindow::OnPrintAllClick(wxCommandEvent& event) {
 }
 
 void MainWindow::OnPrintUserInputClick(wxCommandEvent& event) {
+	userInputBox->GetValue()
 }
 
 

@@ -43,7 +43,7 @@ public:
 	BinaryTree();
 	~BinaryTree();
 	void Insert(const Course& course);
-	void Search(const std::string& courseNumber);
+	void Search(const std::string& courseNumber, std::vector<Course>& specificCourseVector);
 	void InOrderPrint(std::vector<Course>& courseVector);
 };
 
