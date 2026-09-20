@@ -4,6 +4,9 @@
 #include <wx/panel.h>
 #include <wx/filectrl.h>
 
+/**
+ * @brief This class contains the functions and variables for the file window.
+ */
 class FileWindow : public wxFrame {
 public:
 	FileWindow();

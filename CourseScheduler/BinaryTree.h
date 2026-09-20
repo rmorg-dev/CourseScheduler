@@ -4,14 +4,18 @@
 #include <vector>
 #include <optional>
 
-// TODO: add file documentation.
-
+/**
+ * @brief This struct contains the course information.
+ */
 struct Course {
 	std::string courseNumber;
 	std::string courseName;
 	std::vector<std::string> prerequisites;
 };
 
+/**
+ * @brief This struct holds the course data with pointers to left and right nodes.
+ */
 struct Node {
 	Course course;
 	Node* left;
@@ -34,6 +38,9 @@ struct Node {
 	}
 };
 
+/**
+ * @brief This class stores nodes in ascending alphanumeric order in a tree data structure.
+ */
 class BinaryTree {
 private:
 	Node* root;

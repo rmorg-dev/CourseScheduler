@@ -8,7 +8,10 @@
 #include <string>
 #include <vector>
 
-
+/**
+ * @brief Determines what the app will open and do when code is run.
+ * @return 
+ */
 bool App::OnInit() {
 	courseTree = new BinaryTree();
 	MainWindow* window = new MainWindow();
@@ -17,12 +20,21 @@ bool App::OnInit() {
 	window->Show();
 	return true;
 }
-
+/**
+ * @brief Determines what the app will do when the user exits the program completely.
+ * @return 
+ */
 int App::OnExit() {
 	delete courseTree;
 	return wxApp::OnExit();
 }
 
+/**
+ * @brief Reads in a CSV file and stores it in a binary tree.
+ * @param filename 
+ * @param tree 
+ * @return 
+ */
 bool App::ReadCSV(const wxString& filename, BinaryTree* tree) {
 	std::string filenameStr = filename.ToStdString();
 	std::ifstream fileIn(filenameStr);

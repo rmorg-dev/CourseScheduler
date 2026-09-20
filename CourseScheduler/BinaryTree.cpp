@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <optional>
-// TODO: add file documentation.
 
 /**
  * @brief Constructor.
@@ -60,6 +59,7 @@ void BinaryTree::Insert(const Course& course) {
 		}
 	}
 }
+
 /**
  * @brief Function searches the tree for the course number passed.
  * @param courseNumber 

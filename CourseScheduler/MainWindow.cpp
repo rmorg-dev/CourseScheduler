@@ -13,7 +13,7 @@
 
 
 /**
- * @brief Constructor.
+ * @brief Main window constructor.
  */
 MainWindow::MainWindow() : wxFrame(nullptr, wxID_ANY, "Course Scheduler") {
 	mainPanel = new wxPanel(this, wxID_ANY, wxPoint(600, 600), wxSize(500, 500));
@@ -30,11 +30,19 @@ MainWindow::MainWindow() : wxFrame(nullptr, wxID_ANY, "Course Scheduler") {
 
 }
 
+/**
+ * @brief Opens the file window when a user clicks on the Load CSV button.
+ * @param event 
+ */
 void MainWindow::OnLoadCsvClick(wxCommandEvent& event) {
 	FileWindow* fileWindow = new FileWindow();
 	fileWindow->Show();
 }
 
+/**
+ * @brief Prints out all of the current courses stored in the binary tree into a multi-line, read-only text box.
+ * @param event 
+ */
 void MainWindow::OnPrintAllClick(wxCommandEvent& event) {
 	courseView->SetValue("");
 
@@ -50,6 +58,10 @@ void MainWindow::OnPrintAllClick(wxCommandEvent& event) {
 	courseView->AppendText(outputString);
 }
 
+/**
+ * @brief Prints out the course information for a course number entered by the user after clicking on the search course button.
+ * @param event 
+ */
 void MainWindow::OnPrintUserInputClick(wxCommandEvent& event) {
 
 	std::string courseNumber = userInputBox->GetValue().ToStdString();

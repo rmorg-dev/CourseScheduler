@@ -5,8 +5,9 @@
 #include <wx/button.h>
 #include <wx/panel.h> 
 
-// TODO: add file documentation.
-
+/**
+ * @brief This class contains the function and variable declarations required for the Main Window.
+ */
 class MainWindow : public wxFrame {
 public:
 	MainWindow();
