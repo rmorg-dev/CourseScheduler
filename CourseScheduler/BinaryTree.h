@@ -36,6 +36,8 @@ struct Node {
 		delete left;
 		delete right;
 	}
+	Node (const Node&) = delete;
+	Node& operator=(const Node&) = delete;
 };
 
 /**
@@ -52,6 +54,8 @@ public:
 	void Insert(const Course& course);
 	std::optional<Course> Search(const std::string& courseNumber);
 	void InOrderPrint(std::vector<Course>& courseVector);
+	BinaryTree(const BinaryTree&) = delete;
+	BinaryTree& operator=(const BinaryTree&) = delete;
 };
 
 #endif
