@@ -1,7 +1,7 @@
 #include "App.h"
 #include "MainWindow.h"
 #include "FileWindow.h"
-#include "BinaryTree.h"
+#include "DynamicArray.h"
 #include <wx/frame.h>
 #include <fstream>
 #include <sstream>
@@ -13,7 +13,7 @@
  * @return 
  */
 bool App::OnInit() {
-	courseTree = new BinaryTree();
+	courseArray = new DynamicArray();
 	MainWindow* window = new MainWindow();
 	// FileWindow* TileWindows = new FileWindow();
 	window->SetClientSize(400, 500);
@@ -26,7 +26,7 @@ bool App::OnInit() {
  * @return 
  */
 int App::OnExit() {
-	delete courseTree;
+	delete courseArray;
 	return wxApp::OnExit();
 }
 
@@ -36,7 +36,7 @@ int App::OnExit() {
  * @param tree 
  * @return 
  */
-bool App::ReadCSV(const wxString& filename, BinaryTree* tree) {
+bool App::ReadCSV(const wxString& filename, DynamicArray* array) {
 	std::string filenameStr = filename.ToStdString();
 	std::ifstream fileIn(filenameStr);
 	std::vector<std::vector<std::string>> csvRows; // a super vector that contains other vectors of strings allowing for easier parsing. 
@@ -78,7 +78,7 @@ bool App::ReadCSV(const wxString& filename, BinaryTree* tree) {
 				course.prerequisites.push_back(row[i]);
 			}
 		}
-		courseTree->Insert(course);
+		array->Insert(course);
 	}
 
 	return successfulRead;

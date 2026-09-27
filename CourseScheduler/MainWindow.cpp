@@ -54,7 +54,7 @@ void MainWindow::OnPrintAllClick(wxCommandEvent& event) {
 	courseView->SetValue("");
 
 	std::vector<Course> courseVector;
-	wxGetApp().courseTree->InOrderPrint(courseVector);
+	wxGetApp().courseArray->GetCourses(courseVector);
 	wxString outputString;
 	for (const Course& course : courseVector) {
 		outputString.append(course.courseNumber);
@@ -78,7 +78,7 @@ void MainWindow::OnPrintUserInputClick(wxCommandEvent& event) {
 	}
 
 	std::string courseNumberLowercase = ConvertToLowercase(courseNumber);
-	auto specificCourse = wxGetApp().courseTree->Search(courseNumberLowercase);
+	auto specificCourse = wxGetApp().courseArray->Search(courseNumberLowercase);
 
 	if (specificCourse.has_value()){
 		Course c = specificCourse.value();

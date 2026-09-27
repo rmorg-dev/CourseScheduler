@@ -19,7 +19,7 @@ FileWindow::FileWindow() : wxFrame(nullptr, wxID_ANY, "File Search") {
  * @param event 
  */
 void FileWindow::OnUserActivateFile(wxFileCtrlEvent& event) {
-	bool fileReadStatus = wxGetApp().ReadCSV(file->GetPath(), wxGetApp().courseTree);
+	bool fileReadStatus = wxGetApp().ReadCSV(file->GetPath(), wxGetApp().courseArray);
 	if (!fileReadStatus) {
 		wxLogMessage("File Load Failed!");
 	}
