@@ -14,15 +14,10 @@
  * @return 
  */
 bool App::OnInit() {
-	bool dbInit = Database::InitializeDB("courses.db");
-	wxLogMessage("Database::Initialize returned: %s", dbInit ? "true" : "false");
+	Database::InitializeDB("courses.db");
 
-	bool empty = Database::IsEmpty();
-	wxLogMessage("Database::IsEmpty returned: %s", empty ? "true" : "false");
-
-	if (empty) {
-		bool filled = Database::InsertFromCSV("courses.csv");
-		wxLogMessage("Database::InsertFromCSV returned: %s", filled ? "true" : "false");
+	if (Database::IsEmpty()) {
+		Database::InsertFromCSV("courses.csv");
 	}
 
 	courseArray = new DynamicArray();
