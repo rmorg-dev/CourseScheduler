@@ -19,6 +19,9 @@ std::vector<std::string> ParseCSVRow(const std::string& row) {
 				rowString += '"';
 				i++;
 			}
+			else {
+				isQuoted = !isQuoted;
+			}
 		}
 		else if (rowChar == ',' && !isQuoted) {
 			allRowStrings.push_back(rowString);
@@ -104,7 +107,7 @@ bool Database::InsertFromCSV(const std::string& csvFilePath) {
 
 	sqlite3_finalize(courseSTMT);
 	sqlite3_finalize(prereqSTMT);
-	sqlite3_exec(courseDB, "COMMIT:", nullptr, nullptr, nullptr);
+	sqlite3_exec(courseDB, "COMMIT;", nullptr, nullptr, nullptr);
 
 	return true;
 }
