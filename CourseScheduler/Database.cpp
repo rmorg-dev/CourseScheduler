@@ -6,6 +6,35 @@
 
 static sqlite3* courseDB = nullptr;
 
+std::vector<std::string> ParseCSVRow(const std::string& row) {
+	bool isQuoted = false;
+	std::vector<std::string> allRowStrings;
+	std::string rowString;
+
+	for (int i = 0; i < row.size(); i++) {
+		char rowChar = row[i];
+
+		if (rowChar == '"') {
+			if (isQuoted && i + 1 < row.size() && row[i + 1] == '"') {
+				rowString += '"';
+				i++;
+			}
+		}
+		else if (rowChar == ',' && !isQuoted) {
+			allRowStrings.push_back(rowString);
+			rowString.clear();
+		}
+		else {
+			rowString += rowChar;
+		}
+	}
+
+	allRowStrings.push_back(rowString);
+
+	return allRowStrings;
+
+
+}
 bool Database::InitializeDB(const std::string& dbFilePath) {
 	if (sqlite3_open(dbFilePath.c_str(), &courseDB) != SQLITE_OK) { // if db cannot be opened.
 		sqlite3_close(courseDB); 
@@ -48,12 +77,7 @@ bool Database::InsertFromCSV(const std::string& csvFilePath) {
 
 	/* read each line of the file and find each element separated by ',' on said line. These will then be inserted into the DB */
 	for (std::string line; getline(fileIn, line);) {
-		std::istringstream ss(line);
-		std::vector<std::string> row;
-
-		for (std::string value; getline(ss, value, ',');) {
-			row.push_back(value);
-		}
+		std::vector<std::string> row = ParseCSVRow(line);
 
 		if (row.size() < 2) {
 			continue;
@@ -68,10 +92,12 @@ bool Database::InsertFromCSV(const std::string& csvFilePath) {
 		// if the row contains prereqs, then this will be ran.
 		if (row.size() > 2) {
 			for (int i = 2; i < row.size(); i++) {
-				sqlite3_bind_text(prereqSTMT, 1, row[0].c_str(), -1, SQLITE_TRANSIENT);
-				sqlite3_bind_text(prereqSTMT, 2, row[i].c_str(), -1, SQLITE_TRANSIENT);
-				sqlite3_step(prereqSTMT);
-				sqlite3_reset(prereqSTMT);
+				if (!row[i].empty()) {
+					sqlite3_bind_text(prereqSTMT, 1, row[0].c_str(), -1, SQLITE_TRANSIENT);
+					sqlite3_bind_text(prereqSTMT, 2, row[i].c_str(), -1, SQLITE_TRANSIENT);
+					sqlite3_step(prereqSTMT);
+					sqlite3_reset(prereqSTMT);
+				}
 			}
 		}
 	}
