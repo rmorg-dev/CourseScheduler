@@ -155,6 +155,7 @@
     <ClCompile Include="FileWindow.cpp" />
     <ClCompile Include="InputValidation.cpp" />
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="sqlite3.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -163,10 +164,10 @@
     <ClInclude Include="FileWindow.h" />
     <ClInclude Include="InputValidation.h" />
     <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="sqlite3.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="courses.csv" />
-    <None Include="courses.db" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
