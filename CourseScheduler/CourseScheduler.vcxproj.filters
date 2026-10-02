@@ -30,6 +30,9 @@
     <ClCompile Include="DynamicArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Database.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainWindow.h">
@@ -47,8 +50,12 @@
     <ClInclude Include="DynamicArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Database.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="courses.csv" />
+    <None Include="courses.db" />
   </ItemGroup>
 </Project>

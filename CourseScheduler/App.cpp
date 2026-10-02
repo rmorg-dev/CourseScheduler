@@ -2,6 +2,7 @@
 #include "MainWindow.h"
 #include "FileWindow.h"
 #include "DynamicArray.h"
+#include "Database.h"
 #include <wx/frame.h>
 #include <fstream>
 #include <sstream>
@@ -13,6 +14,12 @@
  * @return 
  */
 bool App::OnInit() {
+	Database::InitializeDB("courses.db");
+
+	if (Database::IsEmpty()) {
+		Database::InsertFromCSV("courses.csv");
+	}
+
 	courseArray = new DynamicArray();
 	MainWindow* window = new MainWindow();
 	// FileWindow* TileWindows = new FileWindow();
@@ -27,6 +34,7 @@ bool App::OnInit() {
  */
 int App::OnExit() {
 	delete courseArray;
+	Database::Shutdown();
 	return wxApp::OnExit();
 }
 

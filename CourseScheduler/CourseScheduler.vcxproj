@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="Database.cpp" />
     <ClCompile Include="DynamicArray.cpp" />
     <ClCompile Include="FileWindow.cpp" />
     <ClCompile Include="InputValidation.cpp" />
@@ -157,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="Database.h" />
     <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="FileWindow.h" />
     <ClInclude Include="InputValidation.h" />
@@ -164,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="courses.csv" />
+    <None Include="courses.db" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
