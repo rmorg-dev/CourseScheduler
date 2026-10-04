@@ -112,6 +112,106 @@ bool Database::InsertFromCSV(const std::string& csvFilePath) {
 	return true;
 }
 
+bool Database::LoadAllCourseNumbers(DynamicArray& courseArray) {
+	if (courseDB == nullptr) {
+		return false;
+	}
+
+	const char* loadSQL = "SELECT course_number FROM courses;";
+	sqlite3_stmt* loadSTMT = nullptr;
+
+	if (sqlite3_prepare_v2(courseDB, loadSQL, -1, &loadSTMT, nullptr) != SQLITE_OK) {
+		return false;
+	}
+
+	while (sqlite3_step(loadSTMT) == SQLITE_ROW) {
+		courseArray.Insert((const char*) sqlite3_column_text(loadSTMT,0));
+	}
+
+	sqlite3_finalize(loadSTMT);
+	return true;
+}
+
+std::string Database::GetAllCourses()
+{
+	if (courseDB == nullptr) {
+		return "ERROR. Database is null.";
+	}
+	
+	const char* loadSQL = "SELECT course_number, course_name FROM courses ORDER BY course_number;";
+	sqlite3_stmt* loadSTMT = nullptr;
+
+	if (sqlite3_prepare_v2(courseDB, loadSQL, -1, &loadSTMT, nullptr) != SQLITE_OK) {
+		return "ERROR. Statement could not be prepared.";
+	}
+
+	std::string courseOutput;
+	while (sqlite3_step(loadSTMT) == SQLITE_ROW) {
+		const unsigned char* courseNumber = sqlite3_column_text(loadSTMT, 0);
+		const unsigned char* courseName = sqlite3_column_text(loadSTMT, 1);
+		courseOutput += (const char*) courseNumber;
+		courseOutput += ": ";
+		courseOutput += (const char*) courseName;
+		courseOutput += "\n\n";
+	}
+	
+	sqlite3_finalize(loadSTMT);
+	return courseOutput;
+}
+
+std::string Database::GetCoursePrereqs(const std::string& courseNumber) {
+	if (courseDB == nullptr) {
+		return "ERROR. Database is null.";
+	}
+
+	const char* loadSQL = "SELECT course_number, course_name FROM courses WHERE course_number COLLATE NOCASE = ?";
+	sqlite3_stmt* loadSTMT = nullptr;
+
+	if (sqlite3_prepare_v2(courseDB, loadSQL, -1, &loadSTMT, nullptr) != SQLITE_OK) {
+		return "ERROR. course name load statement could not be prepared.";
+	}
+
+	sqlite3_bind_text(loadSTMT, 1, courseNumber.c_str(), -1, SQLITE_TRANSIENT);
+
+	std::string output;
+	if (sqlite3_step(loadSTMT) == SQLITE_ROW) {
+		const unsigned char* number = sqlite3_column_text(loadSTMT, 0);
+		const unsigned char* name = sqlite3_column_text(loadSTMT, 1);
+		
+		output += (const char*) number;
+		output += ": ";
+		output += (const char*) name;
+		output += "\n\n";
+	}
+
+	sqlite3_finalize(loadSTMT);
+
+	const char* loadPRSQL = "SELECT p.prerequisite FROM courses c LEFT JOIN prerequisites p ON p.course_number = c.course_number WHERE c.course_number COLLATE NOCASE = ?";
+	sqlite3_stmt* loadPRSTMT = nullptr;
+
+	if (sqlite3_prepare_v2(courseDB, loadPRSQL, -1, &loadPRSTMT, nullptr) != SQLITE_OK) {
+		return "ERROR. prerequisite load statement could not be prepared.";
+	}
+
+	sqlite3_bind_text(loadPRSTMT, 1, courseNumber.c_str(), -1, SQLITE_TRANSIENT);
+
+	output += "PREREQUISITES: \n";
+
+	while (sqlite3_step(loadPRSTMT) == SQLITE_ROW) {
+		const unsigned char* prereq = sqlite3_column_text(loadPRSTMT, 0);
+		if (prereq == NULL) {
+			output += "none. \n";
+		}
+		else {
+			output += (const char*) prereq;
+			output += "\n";
+		}
+	}
+
+	sqlite3_finalize(loadPRSTMT);
+	return output;
+}
+
 bool Database::IsEmpty() {
 	const char* sqlCheck = "SELECT COUNT(*) FROM courses;";
 	sqlite3_stmt* stmtCheck = nullptr;

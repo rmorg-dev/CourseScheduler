@@ -6,6 +6,9 @@ class Database {
 public:
 	static bool InitializeDB(const std::string& dbFilePath);
 	static bool InsertFromCSV(const std::string& csvFilePath);
+	static bool LoadAllCourseNumbers(DynamicArray& courseArray);
+	static std::string GetAllCourses();
+	static std::string GetCoursePrereqs(const std::string& courseNumber);
 	static bool IsEmpty();
 	static void Shutdown();
 };

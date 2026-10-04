@@ -4,6 +4,7 @@
 #include "FileWindow.h"
 #include "App.h"
 #include "InputValidation.h"
+#include "Database.h"
 #include <wx/frame.h>
 #include <wx/filectrl.h>
 #include <wx/panel.h>
@@ -30,21 +31,21 @@ MainWindow::MainWindow() : wxFrame(nullptr, wxID_ANY, "Course Scheduler") {
 	font.SetWeight(wxFONTWEIGHT_BOLD);
 	header->SetFont(font);
 
-	loadCsvBtn->Bind(wxEVT_BUTTON, &MainWindow::OnLoadCsvClick, this);
+	/*loadCsvBtn->Bind(wxEVT_BUTTON, &MainWindow::OnLoadCsvClick, this);*/
 	printAllBtn->Bind(wxEVT_BUTTON, &MainWindow::OnPrintAllClick, this);
 	printUserInputBtn->Bind(wxEVT_BUTTON, &MainWindow::OnPrintUserInputClick, this);
 
 
 }
 
-/**
- * @brief Opens the file window when a user clicks on the Load CSV button.
- * @param event 
- */
-void MainWindow::OnLoadCsvClick(wxCommandEvent& event) {
-	FileWindow* fileWindow = new FileWindow();
-	fileWindow->Show();
-}
+///**
+// * @brief Opens the file window when a user clicks on the Load CSV button.
+// * @param event 
+// */
+//void MainWindow::OnLoadCsvClick(wxCommandEvent& event) {
+//	FileWindow* fileWindow = new FileWindow();
+//	fileWindow->Show();
+//}
 
 /**
  * @brief Prints out all of the current courses stored in the binary tree into a multi-line, read-only text box.
@@ -52,17 +53,10 @@ void MainWindow::OnLoadCsvClick(wxCommandEvent& event) {
  */
 void MainWindow::OnPrintAllClick(wxCommandEvent& event) {
 	courseView->SetValue("");
-
-	std::vector<Course> courseVector;
-	wxGetApp().courseArray->GetCourses(courseVector);
 	wxString outputString;
-	for (const Course& course : courseVector) {
-		outputString.append(course.courseNumber);
-		outputString.append(": ");
-		outputString.append(course.courseName);
-		outputString.append("\n\n");
-	}
+	outputString = Database::GetAllCourses();
 	courseView->AppendText(outputString);
+	courseView->SetFont(courseView->GetFont().Bold());
 }
 
 /**
@@ -77,30 +71,20 @@ void MainWindow::OnPrintUserInputClick(wxCommandEvent& event) {
 		return;
 	}
 
-	std::string courseNumberLowercase = ConvertToLowercase(courseNumber);
-	auto specificCourse = wxGetApp().courseArray->Search(courseNumberLowercase);
+	auto specificCourse = wxGetApp().courseArray->Search(courseNumber);
 
-	if (specificCourse.has_value()){
-		Course c = specificCourse.value();
+	if (specificCourse){
 		wxString outputString;
-		outputString.append(c.courseNumber);
-		outputString.append(": ");
-		outputString.append(c.courseName);
-
-		if (c.prerequisites.size() > 0) {
-			outputString.append("\nPREREQUISITES: \n");
-				for (int i = 0; i < c.prerequisites.size(); i++) {
-					outputString.append(c.prerequisites[i]);
-					outputString.append("\n");
-				}
-		}
+		outputString = Database::GetCoursePrereqs(courseNumber);
 		courseView->AppendText(outputString);
+		courseView->SetFont(courseView->GetFont().Bold());
 	}
 
 	else {
 		wxLogMessage("Course Number not found!");
 	}
-}
+}	
+
 
 
 

@@ -4,11 +4,6 @@
 #include <vector>
 #include <optional>
 
-struct Course {
-	std::string courseNumber;
-	std::string courseName;
-	std::vector<std::string> prerequisites;
-};
 
 class DynamicArray {
 public:
@@ -16,13 +11,13 @@ public:
 	~DynamicArray();
 	DynamicArray(const DynamicArray&) = delete;
 	DynamicArray& operator=(const DynamicArray&) = delete;
-	void Insert(const Course& course);
+	void Insert(const std::string& courseNumber);
 	void SortDynamicArray();
-	std::optional<Course> Search(const std::string& courseNumber);
-	void GetCourses(std::vector<Course>& courseVector);
+	bool Search(const std::string& courseNumber);
+	void GetCourses(std::vector<std::string>& courseNumbers);
 
 private:
-	Course* data;
+	std::string* data;
 	int capacity;
 	int count;
 	bool sorted;
