@@ -1,7 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS // wxWidgets keeps throwing C4996 errors.
 
 #include "MainWindow.h"
-#include "FileWindow.h"
 #include "App.h"
 #include "InputValidation.h"
 #include "Database.h"
@@ -21,7 +20,6 @@
 MainWindow::MainWindow() : wxFrame(nullptr, wxID_ANY, "Course Scheduler") {
 	mainPanel = new wxPanel(this, wxID_ANY, wxPoint(600, 600), wxSize(500, 500));
 	header = new wxStaticText(mainPanel, wxID_ANY, "COURSE LOOK-UP", wxPoint(150, 25), wxSize(150, 25));
-	loadCsvBtn = new wxButton(mainPanel, wxID_ANY, "LOAD CSV DATA", wxPoint(50, 50), wxSize(150,25));
 	printAllBtn = new wxButton(mainPanel, wxID_ANY, "PRINT ALL COURSES", wxPoint(200, 50), wxSize(150,25));
 	printUserInputBtn = new wxButton(mainPanel, wxID_ANY, "SEARCH COURSE", wxPoint(200, 100), wxSize(150,25));
 	userInputBox = new wxTextCtrl(mainPanel, wxID_ANY, "", wxPoint(50, 100), wxSize(150, 25));
@@ -31,21 +29,11 @@ MainWindow::MainWindow() : wxFrame(nullptr, wxID_ANY, "Course Scheduler") {
 	font.SetWeight(wxFONTWEIGHT_BOLD);
 	header->SetFont(font);
 
-	/*loadCsvBtn->Bind(wxEVT_BUTTON, &MainWindow::OnLoadCsvClick, this);*/
 	printAllBtn->Bind(wxEVT_BUTTON, &MainWindow::OnPrintAllClick, this);
 	printUserInputBtn->Bind(wxEVT_BUTTON, &MainWindow::OnPrintUserInputClick, this);
 
 
 }
-
-///**
-// * @brief Opens the file window when a user clicks on the Load CSV button.
-// * @param event 
-// */
-//void MainWindow::OnLoadCsvClick(wxCommandEvent& event) {
-//	FileWindow* fileWindow = new FileWindow();
-//	fileWindow->Show();
-//}
 
 /**
  * @brief Prints out all of the current courses stored in the binary tree into a multi-line, read-only text box.

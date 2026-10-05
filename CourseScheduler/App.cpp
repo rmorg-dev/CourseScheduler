@@ -1,6 +1,5 @@
 #include "App.h"
 #include "MainWindow.h"
-#include "FileWindow.h"
 #include "DynamicArray.h"
 #include "Database.h"
 #include <wx/frame.h>
@@ -24,7 +23,6 @@ bool App::OnInit() {
 	Database::LoadAllCourseNumbers(*courseArray);
 	courseArray->SortDynamicArray();
 	MainWindow* window = new MainWindow();
-	// FileWindow* TileWindows = new FileWindow();
 	window->SetClientSize(400, 500);
 	window->CenterOnScreen();
 	window->Show();

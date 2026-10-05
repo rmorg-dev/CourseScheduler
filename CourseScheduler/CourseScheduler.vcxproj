@@ -152,7 +152,6 @@
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="DynamicArray.cpp" />
-    <ClCompile Include="FileWindow.cpp" />
     <ClCompile Include="InputValidation.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="sqlite3.c" />
@@ -161,7 +160,6 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="DynamicArray.h" />
-    <ClInclude Include="FileWindow.h" />
     <ClInclude Include="InputValidation.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="sqlite3.h" />
