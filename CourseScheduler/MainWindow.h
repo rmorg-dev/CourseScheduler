@@ -18,10 +18,6 @@ private:
 	wxStaticText* header;
 	wxButton* printAllBtn;
 	wxButton* printUserInputBtn;
-	wxButton* addCourseBtn;
-	wxTextCtrl* courseNumberBox;
-	wxTextCtrl* courseNameBox;
-	wxTextCtrl* prerequisiteBox;
 	wxTextCtrl* userInputBox;
 	wxTextCtrl* courseView;
 	wxFont font;
