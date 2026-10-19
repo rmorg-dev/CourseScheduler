@@ -3,6 +3,9 @@
 #include <algorithm>
 #include <cassert>
 
+/**
+ * @brief Initializes an empty dynamic array.
+ */
 DynamicArray::DynamicArray() {
 	data = nullptr;
 	capacity = 0;
@@ -10,12 +13,17 @@ DynamicArray::DynamicArray() {
 	sorted = true;
 }
 
-
+/**
+ * @brief Releases the allocated array storage.
+ */
 DynamicArray::~DynamicArray() {
 	delete[] data;
 }
 
-
+/**
+ * @brief Adds a course number to the end of the array.
+ * @param courseNumber Course to insert.
+ */
 void DynamicArray::Insert(const std::string& courseNumber) {
 	if (count == capacity) { // if the array is full, expand the capacity.
 		Grow();
@@ -25,12 +33,19 @@ void DynamicArray::Insert(const std::string& courseNumber) {
 	sorted = false;
 }
 
-
+/**
+ * @brief Sorts the course numbers in ascending order.
+ */
 void DynamicArray::SortDynamicArray() {
 	std::sort(data, data + count);
 	sorted = true;
 }
 
+/**
+ * @brief Searches for a course number using binary search.
+ * @param courseNumber Course to search for.
+ * @return True if course exists; otherwise false.
+ */
 bool DynamicArray::Search(const std::string& courseNumber) {
 	if (!sorted) { // ensures Dynamic Array will always be sorted before searching to ensure efficiency.
 		SortDynamicArray();
@@ -57,9 +72,10 @@ bool DynamicArray::Search(const std::string& courseNumber) {
 	return false;
 }
 
-
-
-
+/**
+ * @brief Copies all course numbers to vector parameter.
+ * @param courseNumbers vector that will hold the course numbers.
+ */
 void DynamicArray::GetCourses(std::vector<std::string>& courseNumbers) {
 	if (!sorted) {
 		SortDynamicArray();
@@ -70,6 +86,9 @@ void DynamicArray::GetCourses(std::vector<std::string>& courseNumbers) {
 	}
 }
 
+/**
+ * @brief Increases array capacity.
+ */
 void DynamicArray::Grow() {
 	int newCapacity;
 	if (capacity == 0) {
