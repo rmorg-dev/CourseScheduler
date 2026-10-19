@@ -16,26 +16,23 @@ DynamicArray::~DynamicArray() {
 }
 
 
-void DynamicArray::Insert(const Course& course) {
+void DynamicArray::Insert(const std::string& courseNumber) {
 	if (count == capacity) { // if the array is full, expand the capacity.
 		Grow();
 	}
-	data[count] = course;
+	data[count] = courseNumber;
 	count++;
 	sorted = false;
 }
 
 
 void DynamicArray::SortDynamicArray() {
-	std::sort(data, data + count, [](const Course& a, const Course& b) {
-		return ConvertToLowercase(a.courseNumber) < ConvertToLowercase(b.courseNumber); 
-	});
+	std::sort(data, data + count);
 	sorted = true;
 }
 
-
-std::optional<Course> DynamicArray::Search(const std::string& courseNumber) {
-	if (!sorted){ // ensures Dynamic Array will always be sorted before searching to ensure efficiency.
+bool DynamicArray::Search(const std::string& courseNumber) {
+	if (!sorted) { // ensures Dynamic Array will always be sorted before searching to ensure efficiency.
 		SortDynamicArray();
 	}
 
@@ -45,10 +42,10 @@ std::optional<Course> DynamicArray::Search(const std::string& courseNumber) {
 
 	while (min <= max) {
 		int midpoint = min + (max - min) / 2;
-		std::string midpointVal = ConvertToLowercase(data[midpoint].courseNumber);
+		std::string midpointVal = ConvertToLowercase(data[midpoint]);
 
 		if (midpointVal == courseNumLowercase) { // if midpoint value is the same, return the course.
-			return data[midpoint];
+			return true;
 		}
 		else if (midpointVal < courseNumLowercase) { // if midpoint value is lower, search the upper-half of the array.
 			min = midpoint + 1;
@@ -57,17 +54,19 @@ std::optional<Course> DynamicArray::Search(const std::string& courseNumber) {
 			max = midpoint - 1;
 		}
 	}
-	return std::nullopt;
+	return false;
 }
 
 
-void DynamicArray::GetCourses(std::vector<Course>& courseVector) {
+
+
+void DynamicArray::GetCourses(std::vector<std::string>& courseNumbers) {
 	if (!sorted) {
 		SortDynamicArray();
 	}
 
 	for (int i = 0; i < count; i++) {
-		courseVector.push_back(data[i]);
+		courseNumbers.push_back(data[i]);
 	}
 }
 
@@ -79,7 +78,7 @@ void DynamicArray::Grow() {
 	else {
 		newCapacity = capacity * 2;
 	}
-	Course* newData = new Course[newCapacity];
+	std::string* newData = new std::string[newCapacity];
 	
 	assert(count <= capacity); // lets compiler know count will never be greater than capacity, and will throw an error if it ever is.
 	

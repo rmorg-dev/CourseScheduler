@@ -21,13 +21,16 @@
     <ClCompile Include="App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FileWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="InputValidation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DynamicArray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Database.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sqlite3.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,13 +41,16 @@
     <ClInclude Include="App.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FileWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="InputValidation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DynamicArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Database.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sqlite3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
