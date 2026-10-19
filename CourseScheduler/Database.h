@@ -2,6 +2,7 @@
 #define DATABASE_H
 #include <string>
 #include "DynamicArray.h"
+
 class Database {
 public:
 	static bool InitializeDB(const std::string& dbFilePath);

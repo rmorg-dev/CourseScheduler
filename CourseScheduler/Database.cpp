@@ -4,8 +4,16 @@
 #include <fstream>
 #include <sstream>
 
+/**
+ * @brief Holds SQLite DB connection.
+ */
 static sqlite3* courseDB = nullptr;
 
+/**
+ * @brief Helper function to handle quoted strings in the CSV file.
+ * @param row row of the csv file currently being parsed.
+ * @return vector of strings.
+ */
 std::vector<std::string> ParseCSVRow(const std::string& row) {
 	bool isQuoted = false;
 	std::vector<std::string> allRowStrings;
@@ -38,6 +46,12 @@ std::vector<std::string> ParseCSVRow(const std::string& row) {
 
 
 }
+
+/**
+ * @brief Opens SQLite DB and initializes the tables.
+ * @param dbFilePath path to the SQLite DB file.
+ * @return True if DB opens and tables are initialized; otherwise false.
+ */
 bool Database::InitializeDB(const std::string& dbFilePath) {
 	if (sqlite3_open(dbFilePath.c_str(), &courseDB) != SQLITE_OK) { // if db cannot be opened.
 		sqlite3_close(courseDB); 
@@ -61,6 +75,11 @@ bool Database::InitializeDB(const std::string& dbFilePath) {
 
 }
 
+/**
+ * @brief Imports course info and prerequisites from CSV file into the DB.
+ * @param csvFilePath Path to CSV file.
+ * @return True if file opens; otherwise false.
+ */
 bool Database::InsertFromCSV(const std::string& csvFilePath) {
 	std::ifstream fileIn(csvFilePath);
 	
@@ -112,6 +131,11 @@ bool Database::InsertFromCSV(const std::string& csvFilePath) {
 	return true;
 }
 
+/**
+ * @brief Loads course numbers from DB to dynamic array.
+ * @param courseArray Dynamic array that contains the course numbers.
+ * @return True if DB query succeeds; otherwise false.
+ */
 bool Database::LoadAllCourseNumbers(DynamicArray& courseArray) {
 	if (courseDB == nullptr) {
 		return false;
@@ -132,6 +156,10 @@ bool Database::LoadAllCourseNumbers(DynamicArray& courseArray) {
 	return true;
 }
 
+/**
+ * @brief Retrieves all courses in course number order and formatted for displaying in the GUI.
+ * @return Formatted course information.
+ */
 std::string Database::GetAllCourses()
 {
 	if (courseDB == nullptr) {
@@ -159,6 +187,11 @@ std::string Database::GetAllCourses()
 	return courseOutput;
 }
 
+/**
+ * @brief Retrieves a course's prerequisites and name to display to the GUI.
+ * @param courseNumber course to search.
+ * @return Formatted course and prerequisites.
+ */
 std::string Database::GetCoursePrereqs(const std::string& courseNumber) {
 	if (courseDB == nullptr) {
 		return "ERROR. Database is null.";
@@ -212,6 +245,10 @@ std::string Database::GetCoursePrereqs(const std::string& courseNumber) {
 	return output;
 }
 
+/**
+ * @brief Checks if courses table contains any records.
+ * @return True if table is empty or query can't be prepared; otherwise false.
+ */
 bool Database::IsEmpty() {
 	const char* sqlCheck = "SELECT COUNT(*) FROM courses;";
 	sqlite3_stmt* stmtCheck = nullptr;
@@ -230,6 +267,9 @@ bool Database::IsEmpty() {
 	return count == 0;
 }
 
+/**
+ * @brief Closes SQLite DB connection.
+ */
 void Database::Shutdown() {
 	sqlite3_close(courseDB);
 	courseDB = nullptr;

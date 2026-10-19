@@ -9,8 +9,8 @@
 #include <vector>
 
 /**
- * @brief Determines what the app will open and do when code is run.
- * @return 
+ * @brief Initializes the application as well as the DB connection and displays the main window.
+ * @return True when app startup succeeds.
  */
 bool App::OnInit() {
 	Database::InitializeDB("courses.db");
@@ -29,8 +29,8 @@ bool App::OnInit() {
 	return true;
 }
 /**
- * @brief Determines what the app will do when the user exits the program completely.
- * @return 
+ * @brief Releases application resources on shutdown.
+ * @return Exit status returned by wxWidgets.
  */
 int App::OnExit() {
 	delete courseArray;
