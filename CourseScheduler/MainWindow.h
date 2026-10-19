@@ -16,15 +16,18 @@ public:
 private:
 	wxPanel* mainPanel;
 	wxStaticText* header;
-	wxButton* loadCsvBtn;
 	wxButton* printAllBtn;
 	wxButton* printUserInputBtn;
+	wxButton* addCourseBtn;
+	wxTextCtrl* courseNumberBox;
+	wxTextCtrl* courseNameBox;
+	wxTextCtrl* prerequisiteBox;
 	wxTextCtrl* userInputBox;
 	wxTextCtrl* courseView;
 	wxFont font;
 
 
-	void OnLoadCsvClick(wxCommandEvent& event);
+	void OnAddCourseClick(wxCommandEvent& event);
 	void OnPrintAllClick(wxCommandEvent& event);
 	void OnPrintUserInputClick(wxCommandEvent& event);
 };

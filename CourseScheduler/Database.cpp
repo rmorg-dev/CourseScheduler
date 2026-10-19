@@ -212,6 +212,62 @@ std::string Database::GetCoursePrereqs(const std::string& courseNumber) {
 	return output;
 }
 
+bool Database::InsertCourse(const std::string& courseNumber, const std::string& courseName, const std::vector<std::string>& prereqs)
+{
+	if (courseDB == nullptr) {
+		return false;
+	}
+	
+	char* errMsg = nullptr;
+	if (sqlite3_exec(courseDB, "BEGIN TRANSACTION;", nullptr, nullptr, &errMsg) != SQLITE_OK) {
+		sqlite3_free(errMsg);
+		return false;
+	}
+
+	sqlite3_stmt* courseStmt = nullptr;
+	if (sqlite3_prepare_v2(courseDB, "INSERT INTO courses VALUES (?, ?);", -1, &courseStmt, nullptr) != SQLITE_OK) {
+		sqlite3_exec(courseDB, "ROLLBACK;", nullptr, nullptr, nullptr);
+		return false;
+	}
+
+	sqlite3_bind_text(courseStmt, 1, courseNumber.c_str(), -1, SQLITE_TRANSIENT);
+	sqlite3_bind_text(courseStmt, 2, courseName.c_str(), -1, SQLITE_TRANSIENT);
+
+	if (sqlite3_step(courseStmt) != SQLITE_DONE) {
+		sqlite3_finalize(courseStmt);
+		sqlite3_exec(courseDB, "ROLLBACK;", nullptr, nullptr, nullptr);
+		return false;
+	}
+	sqlite3_finalize(courseStmt);
+
+	if (!prereqs.empty()) {
+		sqlite3_stmt* prereqStmt = nullptr;
+		if (sqlite3_prepare_v2(courseDB, "INSERT INTO prerequisites (course_number, prerequisite_number) VALUES (?, ?);", -1, &prereqStmt, nullptr) != SQLITE_OK) {
+			sqlite3_exec(courseDB, "ROLLBACK;", nullptr, nullptr, nullptr);
+			return false;
+		}
+		
+		for (const std::string& prereq : prereqs) {
+			sqlite3_bind_text(prereqStmt, 1, courseNumber.c_str(), -1, SQLITE_TRANSIENT);
+			sqlite3_bind_text(prereqStmt, 2, prereq.c_str(), -1, SQLITE_TRANSIENT);
+
+			if (sqlite3_step(prereqStmt) != SQLITE_DONE) {
+				sqlite3_finalize(prereqStmt);
+				sqlite3_exec(courseDB, "ROLLBACK;", nullptr, nullptr, nullptr);
+				return false;
+			}
+			sqlite3_reset(prereqStmt);
+		}
+		sqlite3_finalize(prereqStmt);
+	}
+	if (sqlite3_exec(courseDB, "COMMIT;", nullptr, nullptr, &errMsg) != SQLITE_OK) {
+		sqlite3_free(errMsg);
+		sqlite3_exec(courseDB, "ROLLBACK;", nullptr, nullptr, nullptr);
+		return false;
+	}
+	return true;
+}
+
 bool Database::IsEmpty() {
 	const char* sqlCheck = "SELECT COUNT(*) FROM courses;";
 	sqlite3_stmt* stmtCheck = nullptr;
